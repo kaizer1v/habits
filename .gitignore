@@ -3,6 +3,9 @@
 # Never commit useless files.
 # Try not to commit large files.
 
+# secret files
+client_secret.json
+
 # Filenames should NOT have spaces
 * *
 
@@ -11,8 +14,6 @@
 
 # Ignore log files
 logs/
-
-# Ignore main data file -- it's too large
 
 # Ignore SQLite3 files. Gramex creates some automatically
 *.sqlite3
