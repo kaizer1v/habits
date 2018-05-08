@@ -9,6 +9,7 @@ df = pd.read_csv(
     encoding='utf-8',
     parse_dates=['start_date_time', 'end_date_time']
 )
+df.loc[:, 'delta'] = df['end_date_time'] - df['start_date_time']
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def index():
     return render_template(
         'report-template.html',
         df=df.groupby('category').agg(
-            {'diff_hours': 'sum'}).reset_index().to_dict(orient='records')
+            {'delta': 'sum'}).reset_index().to_dict(orient='records')
         # df=[{'a': 123, 'b': 456}, {'a': 112233, 'b': 445566}]
     )
 
@@ -35,10 +36,11 @@ def timebased(year, month):
     for_date = pd.to_datetime('{}-{}'.format(year, month))
     p_df = df[(df['start_date_time'].dt.month == for_date.month) &
               (df['start_date_time'].dt.year == for_date.year)]
+    print(p_df.groupby('category').agg({'delta': 'sum'}))
     return render_template(
         'report-template.html',
         df=p_df.groupby('category').agg(
-            {'diff_hours': 'sum'}).reset_index().to_dict(orient='records'),
+            {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         date=for_date.strftime('%b %y')
     )
 

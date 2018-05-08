@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="container">
-      <h1>Hrs Spent</h1>
+      <h1>Time Spent</h1>
 
       <!-- Example row of columns -->
       <div class="row">
@@ -29,7 +29,7 @@
         <div class="col-md-4">
           <h2>{{ d['category'] }}</h2>
           <ul class="list-group">
-            <li class="list-group-item"># of hours <span class="badge badge-primary badge-pill">{{ d['diff_hours'] }}</span></li>
+            <li class="list-group-item"># of hours <span class="badge badge-primary badge-pill">{{ d['delta'] }}</span></li>
           </ul>
         </div>
       {% endfor %}    
