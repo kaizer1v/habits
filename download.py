@@ -1,15 +1,10 @@
-from __future__ import print_function
-import httplib2
 import os
-import pprint
+import httplib2
 import pandas as pd
-
-from apiclient import discovery
-from oauth2client import client
 from oauth2client import tools
+from oauth2client import client
+from apiclient import discovery
 from oauth2client.file import Storage
-
-import datetime
 
 try:
     import argparse
@@ -77,16 +72,15 @@ def main(str_start_date, str_end_date):
         orderBy='startTime'
     ).execute()
     events = eventsResult.get('items', [])
-    # pprint.pprint(events)
 
     events_data = []
     if not events:
-        print('No upcoming events found.')
+        print('No events found since {}.'.format(start_date.strftime('%b-%y')))
     for event in events:
         start = event['start'].get('date', event['start'].get('dateTime'))
         end = event['end'].get('date', event['end'].get('dateTime'))
-        org = event['organizer'].get(
-            'displayName', event['organizer'].get('email'))
+        # org = event['organizer'].get(
+        #     'displayName', event['organizer'].get('email'))
 
         events_data.append({
             'start_date_time': start,
@@ -117,16 +111,20 @@ def main(str_start_date, str_end_date):
     })
     diff_components = (df['end_date_time'] -
                        df['start_date_time']).dt.components
-    df['diff_days'], df[
-        'diff_hours'] = diff_components.days, (diff_components.minutes / 60)
+    # df['diff_days'], df[
+    #     'diff_hours'] = diff_components.days, (diff_components.minutes / 60)
+    df.loc[:, 'diff_days'] = diff_components.days
+    df.loc[:, 'diff_hours'] = (df['end_date_time'] -
+                               df['start_date_time']) / pd.np.timedelta64(1, 'h')
 
     # download as a csv
-    print('saving {} - {} data into a csv file...'.format(str_start_date, str_end_date))
+    print('saving {} - {} data into a csv file...'.format(
+        str_start_date, str_end_date))
     df.loc[:, df.columns != 'title'].to_csv(
         'calendar_data.csv', index=False, encoding='utf-8')
 
 
-def longest_streak(col_val, col='category'):
+def longest_streak(df, col_val, col='category'):
     cont = df[df[col] == col_val]['start_date_time'].diff().dt.days
     streaks = []
     streak = 0
