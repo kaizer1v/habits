@@ -2,6 +2,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 from flask import jsonify
 import pandas as pd
 import json
+import os
 
 df = pd.read_csv(
     'calendar_data.csv',
@@ -27,6 +28,9 @@ def timebased(year, month):
     '''
     given a month and year, filter the dataframe
     to provide only productivity for that time period.
+
+    @param `year` <int> - needs to be in YYYY format
+    @param `month` <str> - needs to short hand for month name eg Apr, Oct etc.
     '''
     for_date = pd.to_datetime('{}-{}'.format(year, month))
     p_df = df[(df['start_date_time'].dt.month == for_date.month) &
