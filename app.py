@@ -1,8 +1,5 @@
-from flask import Flask, flash, redirect, render_template, request, session, abort, request
-from flask import jsonify
+from flask import Flask, render_template
 import pandas as pd
-import json
-import os
 
 df = pd.read_csv(
     'calendar_data.csv',
@@ -19,8 +16,10 @@ def index():
     return render_template(
         'report-template.html',
         df=df.groupby('category').agg(
-            {'delta': 'sum'}).reset_index().to_dict(orient='records')
+            {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         # df=[{'a': 123, 'b': 456}, {'a': 112233, 'b': 445566}]
+        project=df[df['category'] == 'Project'].groupby('split_title').agg(
+            {'delta': 'sum'}).reset_index().to_dict(orient='records')
     )
 
 
@@ -41,7 +40,9 @@ def timebased(year, month):
         'report-template.html',
         df=p_df.groupby('category').agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records'),
-        date=for_date.strftime('%b %y')
+        date=for_date.strftime('%b %y'),
+        project=df[df['category'] == 'Project'].groupby('split_title').agg(
+            {'delta': 'sum'}).reset_index().to_dict(orient='records')
     )
 
 

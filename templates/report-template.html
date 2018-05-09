@@ -30,9 +30,14 @@
           <h2>{{ d['category'] }}</h2>
           <ul class="list-group">
             <li class="list-group-item"># of hours <span class="badge badge-primary badge-pill">{{ d['delta'] }}</span></li>
+            {% if d['category'] == 'Project' %}
+              {% for p in project %}
+                <li class="list-group-item">{{ p['split_title'] }} - <span class="badge badge-primary badge-pill">{{ p['delta'] }}</span></li>
+              {% endfor %}
+            {% endif %}
           </ul>
         </div>
-      {% endfor %}    
+      {% endfor %}
       <hr>
     </div>
     <!-- /container -->

@@ -116,6 +116,7 @@ def main(str_start_date, str_end_date):
     df.loc[:, 'diff_days'] = diff_components.days
     df.loc[:, 'diff_hours'] = (df['end_date_time'] -
                                df['start_date_time']) / pd.np.timedelta64(1, 'h')
+    df.loc[:, 'delta'] = df['end_date_time'] - df['start_date_time']
 
     # download as a csv
     print('saving {} - {} data into a csv file...'.format(
