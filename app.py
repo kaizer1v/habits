@@ -18,7 +18,7 @@ def index():
         df=df.groupby('category').agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         # df=[{'a': 123, 'b': 456}, {'a': 112233, 'b': 445566}]
-        project=df[df['category'] == 'Project'].groupby('split_title').agg(
+        details=df.groupby(['category', 'split_title']).agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records')
     )
 
@@ -41,8 +41,8 @@ def timebased(year, month):
         df=p_df.groupby('category').agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         date=for_date.strftime('%b %y'),
-        project=df[df['category'] == 'Project'].groupby('split_title').agg(
-            {'delta': 'sum'}).reset_index().to_dict(orient='records')
+        details=df.groupby(['category', 'split_title']).agg(
+            {'delta': 'sum'}).reset_index()
     )
 
 
