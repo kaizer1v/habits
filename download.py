@@ -120,7 +120,7 @@ def main(str_start_date, str_end_date):
 
     # download as a csv
     print('saving {} - {} data into a csv file...'.format(
-        str_start_date, str_end_date))
+        start_date.strftime('%b %y'), end_date.strftime('%b %y')))
     df.loc[:, df.columns != 'title'].to_csv(
         'calendar_data.csv', index=False, encoding='utf-8')
 
