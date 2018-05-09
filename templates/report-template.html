@@ -32,7 +32,7 @@
             <li class="list-group-item bg-warning"># of hours <span class="badge badge-primary badge-pill">{{ d['delta'] }}</span></li>
             {% set detail = details[details['category'] == d['category']].to_dict(orient='records') %}
             {% for det in detail %}
-              <li class="list-group-item">{{ det['split_title'] }}<span class="badge badge-primary badge-pill">{{ det['delta'] }}</span></li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">{{ det['split_title'] }} <span class="badge badge-primary badge-pill">{{ det['delta'] }}</span></li>
             {% endfor %}
           </ul>
         </div>

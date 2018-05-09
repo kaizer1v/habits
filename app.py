@@ -41,7 +41,7 @@ def timebased(year, month):
         df=p_df.groupby('category').agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         date=for_date.strftime('%b %y'),
-        details=df.groupby(['category', 'split_title']).agg(
+        details=p_df.groupby(['category', 'split_title']).agg(
             {'delta': 'sum'}).reset_index()
     )
 
