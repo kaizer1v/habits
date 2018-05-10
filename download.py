@@ -125,17 +125,5 @@ def main(str_start_date, str_end_date):
         'calendar_data.csv', index=False, encoding='utf-8')
 
 
-def longest_streak(df, col_val, col='category'):
-    cont = df[df[col] == col_val]['start_date_time'].diff().dt.days
-    streaks = []
-    streak = 0
-    for c in cont:
-        if c != 1:
-            streak = 0
-        streak += 1
-        streaks.append(streak)
-    return max(streaks)
-
-
 if __name__ == '__main__':
     main('01-01-2018', pd.to_datetime('today'))

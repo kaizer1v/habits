@@ -46,5 +46,21 @@ def timebased(year, month):
     )
 
 
+def longest_streak(df, col_val, col='category'):
+    '''
+    method to calculate the longest streak of an activity
+    INCOMPLETE
+    '''
+    cont = df[df[col] == col_val]['start_date_time'].diff().dt.days
+    streaks = []
+    streak = 0
+    for c in cont:
+        if c != 1:
+            streak = 0
+        streak += 1
+        streaks.append(streak)
+    return max(streaks)
+
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
