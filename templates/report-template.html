@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='node_modules/font-awesome/css/font-awesome.min.css') }}">
   <style type="text/css">
     .row > .col-md-4 { margin-top: 40px; }
   </style>
@@ -17,7 +18,9 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
+        <h4><a href="{{ prev_month }}"><i class="fas fa-caret-left"></i></a></h4>
         <h1 class="display-3">{{ date }}</h1>
+        <h4><a href="{{ next_month }}"><i class="fas fa-caret-right"></i></a></h4>
       </div>
     </div>
     <div class="container">
@@ -30,7 +33,7 @@
           <h2>{{ d['category'] }}</h2>
           <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center bg-warning"># of hours <span class="badge badge-primary badge-pill badge-danger">{{ d['delta'] }}</span></li>
-            {% set detail = details[details['category'] == d['category']].to_dict(orient='records') %}
+            {% set detail = details.loc[details['category'] == d['category']].to_dict(orient='records') %}
             {% for det in detail %}
               <li class="list-group-item d-flex justify-content-between align-items-center">{{ det['split_title'] }} <span class="badge badge-primary badge-pill">{{ det['delta'] }}</span></li>
             {% endfor %}
@@ -46,8 +49,9 @@
   </footer>
 
 
-  <script src="{{ url_for('static', filename='node_modules/jqyery/dist/jquery.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='node_modules/d3/dist/d3.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='node_modules/boostrstrap/dist/js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='node_modules/d3/dist/d3.min.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='node_modules/simplemathjs/dist/math.min.js') }}"></script>
 </body>
 </html>

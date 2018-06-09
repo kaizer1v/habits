@@ -1,5 +1,6 @@
-from flask import Flask, render_template
 import pandas as pd
+from pandas.tseries.offsets import DateOffset
+from flask import Flask, render_template, request
 
 df = pd.read_csv(
     'calendar_data.csv',
@@ -22,6 +23,11 @@ def index():
     )
 
 
+@app.route('/a')
+def something():
+    return render_template('another_template.html')
+
+
 @app.route("/<string:year>/<string:month>")
 def timebased(year, month):
     '''
@@ -40,6 +46,16 @@ def timebased(year, month):
         df=p_df.groupby('category').agg(
             {'delta': 'sum'}).reset_index().to_dict(orient='records'),
         date=for_date.strftime('%b %y'),
+        prev_month='{}{}/{}'.format(
+            request.url_root,
+            (for_date - DateOffset(months=1)).strftime('%Y'),
+            (for_date - DateOffset(months=1)).strftime('%m')
+        ),
+        next_month='{}{}/{}'.format(
+            request.url_root,
+            (for_date + DateOffset(months=1)).strftime('%Y'),
+            (for_date + DateOffset(months=1)).strftime('%m')
+        ),
         details=p_df.groupby(['category', 'split_title']).agg(
             {'delta': 'sum'}).reset_index()
     )
